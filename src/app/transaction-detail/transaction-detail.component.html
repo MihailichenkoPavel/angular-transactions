@@ -1,0 +1,17 @@
+<div *ngIf="transaction">
+    <div><span>id: </span>{{transaction.transactionId}}</div>
+    <br>
+    <div>
+      <div class="form-group">
+        <label>Status</label>
+        <select [(ngModel)]="transaction.status">
+          <option *ngFor="let option of optionsStatus" 
+                  [value]="option"> 
+            {{ option }}
+          </option>
+      </select>
+      </div>
+    </div>
+    <button type="button" class="btn btn-light" (click)="goBack()">Go Back</button>
+    <button type="button" class="btn btn-success" [disabled]="!transaction.status" (click)="save()">Save</button>
+  </div>
