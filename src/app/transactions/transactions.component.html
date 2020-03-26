@@ -47,7 +47,7 @@
                     <td>{{transaction.clientName}}</td>
                     <td>{{transaction.amount}}</td>
                     <td>
-                        <a routerLink="/detail/{{transaction.transactionId}}"><button type="button"
+                        <a routerLink="/detail/{{transaction.id}}"><button type="button"
                                 class="btn btn-primary" title="edit">Edit</button></a>
                         <button type="button" class="btn btn-danger edit" title="delete transaction"
                             (click)="delete(transaction)">Delete</button>
