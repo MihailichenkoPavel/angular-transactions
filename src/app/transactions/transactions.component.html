@@ -1,11 +1,11 @@
 <div class="container">
     <div class="row">
-        <div class="col-xs-2">
+        <div class="col-2">
             <select id="transactions" multiple>
                 <option selected>Transactions</option>
             </select>
         </div>
-        <div class="col-xs-5">
+        <div class="col-5">
             <label>Status: </label>
             <select [(ngModel)]="selectedStatus" (ngModelChange)="onSelect(selectedStatus, selectedType)">
                 <option selected="selected"></option>
@@ -21,15 +21,15 @@
                 </option>
             </select>
         </div>
-        <div class="col-xs-5">
+        <div class="col-5">
             <input class="form-control" type="file" #fileInput />
             <button class="btn btn-primary import" (click)="uploadFile();">Import</button>
             <button class="btn btn-primary import" (click)="exportExcel();">Export</button>
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-2"></div>
-        <div class="col-xs-10">
+        <div class="col-2"></div>
+        <div class="col-10">
             <table id="excel-table" class="table">
                 <tr class="btn-primary">
                     <th>TransactionId</th>
@@ -47,16 +47,16 @@
                     <td>{{transaction.clientName}}</td>
                     <td>{{transaction.amount}}</td>
                     <td>
-                        <a routerLink="/detail/{{transaction.id}}"><button type="button"
-                                class="btn btn-primary" title="edit">Edit</button></a>
+                        <button type="button" class="btn btn-primary" title="edit"
+                            (click)="openModal(transaction.id)">Edit</button>
                         <button type="button" class="btn btn-danger edit" title="delete transaction"
                             (click)="delete(transaction)">Delete</button>
                     </td>
                 </tr>
             </table>
             <div class="row">
-                <div class="col-xs-4"></div>
-                <div class="col-xs-8 justify-content-center">
+                <div class="col-4"></div>
+                <div class="col-8">
                     <ngb-pagination [collectionSize]="transactions.length" [(page)]="page" [maxSize]="5" [rotate]="true"
                         [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
                 </div>

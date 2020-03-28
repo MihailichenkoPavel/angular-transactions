@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { TransactionService } from '../service/transaction.service';  
 import { Transaction } from '../model/transaction';  
@@ -11,31 +10,31 @@ import { Transaction } from '../model/transaction';
   styleUrls: ['./transaction-detail.component.css']
 })
 export class TransactionDetailComponent implements OnInit {
-  @Input() transaction: Transaction;
+  @Input() id: number;
   optionsStatus=['Pending', 'Completed', 'Cancelled'];
+  transaction: Transaction;
 
   constructor(
     private service: TransactionService,
-    private location: Location,
-    private route: ActivatedRoute
+    public activeModal: NgbActiveModal
     ) { }
 
   ngOnInit(): void {
-    this.getTransaction();
+    this.getTransaction(this.id);
   }
 
-  getTransaction(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
+  getTransaction(id: number): void {
     this.service.getTransaction(id)
       .subscribe(transaction => this.transaction = transaction);
   }
 
-  goBack(): void {
-    this.location.back();
-  }
-
   save(): void {
     this.service.updateTransaction(this.transaction)
-      .subscribe(() => this.goBack());
+      .subscribe(() =>
+      this.closeModal('changes saved!'));
+  }
+
+  closeModal(sendData) {
+    this.activeModal.close(sendData);
   }
 }

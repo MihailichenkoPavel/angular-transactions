@@ -3,6 +3,7 @@ import { TransactionService } from '../service/transaction.service';
 import { Transaction } from '../model/transaction';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as XLSX from 'xlsx';
+import { TransactionDetailComponent } from '../transaction-detail/transaction-detail.component';
 
 @Component({
   selector: 'app-transactions',
@@ -51,7 +52,7 @@ export class TransactionsComponent implements OnInit {
 
   onSelect(status: string, type: string) {
     this.service.filteringTransactions(status, type)
-    .subscribe(transactions => this.transactions = transactions);
+      .subscribe(transactions => this.transactions = transactions);
   }
 
   exportExcel() {
@@ -65,5 +66,24 @@ export class TransactionsComponent implements OnInit {
 
     /* save to file */
     XLSX.writeFile(wb, this.fileName);
+  }
+
+  openModal(id: number) {
+    const modalRef = this.modalService.open(TransactionDetailComponent,
+      {
+        scrollable: true,
+        windowClass: 'myCustomModalClass'
+      });
+
+    modalRef.componentInstance.id = id;
+    modalRef.result.then((result) => {
+      if (result == 'changes saved!') {
+        this.getTransactions();
+        console.log(result);
+      }
+      else {
+        console.log(result);
+      }
+    });
   }
 }
