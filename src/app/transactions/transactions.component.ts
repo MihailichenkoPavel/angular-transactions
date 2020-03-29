@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { TransactionService } from '../service/transaction.service';
 import { Transaction } from '../model/transaction';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import * as XLSX from 'xlsx';
+import { ExcelService } from '../service/excel.service'
 import { TransactionDetailComponent } from '../transaction-detail/transaction-detail.component';
 
 @Component({
@@ -19,9 +19,12 @@ export class TransactionsComponent implements OnInit {
   selectedType: string = '';
   page = 1;
   pageSize = 10;
-  /*name of the excel-file which will be downloaded. */
-  fileName = 'ExcelSheet.xlsx';
-  constructor(private service: TransactionService, private modalService: NgbModal) {
+
+  constructor(
+    private service: TransactionService, 
+    private modalService: NgbModal,
+    private excelService: ExcelService
+    ) {
   }
 
   ngOnInit(): void {
@@ -55,18 +58,9 @@ export class TransactionsComponent implements OnInit {
       .subscribe(transactions => this.transactions = transactions);
   }
 
-  exportExcel() {
-    /* table id is passed over here */
-    let element = document.getElementById('excel-table');
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
-
-    /* generate workbook and add the worksheet */
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-    /* save to file */
-    XLSX.writeFile(wb, this.fileName);
-  }
+  exportExcel() :void {
+    this.excelService.exportAsExcelFile(this.transactions, 'transactions');
+ }
 
   openModal(id: number) {
     const modalRef = this.modalService.open(TransactionDetailComponent,
