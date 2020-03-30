@@ -5,9 +5,8 @@ import {TransactionsComponent} from './transactions/transactions.component';
 import {LoginComponent} from './login/login.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/transactions', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },    
-  { path: 'transactions', component: TransactionsComponent }
+  { path: '', component: TransactionsComponent, pathMatch: 'full' },
+  { path: 'login', component: LoginComponent }
 ];
 
 @NgModule({
