@@ -1,0 +1,7 @@
+{
+    "/api/*": {
+        "target": "https://localhost:44303/api/transactions/",
+        "secure": false,
+        "logLevel": "debug"
+    }
+}
