@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { TransactionService } from '../service/transaction.service';  
-import { Transaction } from '../model/transaction';  
+import { TransactionService } from '../services/transaction.service';  
+import { Transaction } from '../models/transaction';  
 
 @Component({
   selector: 'app-transaction-detail',

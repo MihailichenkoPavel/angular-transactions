@@ -1,11 +1,11 @@
-<div class="container">
+<div *ngIf="userData.isLoggedIn">
     <div class="row">
         <div class="col-2">
             <select id="transactions" multiple>
                 <option selected>Transactions</option>
             </select>
         </div>
-        <div class="col-5">
+        <div class="col-5" *ngIf="userData.isLoggedIn">
             <label>Status: </label>
             <select [(ngModel)]="selectedStatus" (ngModelChange)="onSelect(selectedStatus, selectedType)">
                 <option selected="selected"></option>
@@ -21,10 +21,15 @@
                 </option>
             </select>
         </div>
-        <div class="col-5">
+        <div class="col-5" *ngIf="userData.role==userRole.Admin">
             <input class="form-control" type="file" #fileInput />
             <button class="btn btn-primary import" (click)="uploadFile();">Import</button>
             <button class="btn btn-primary import" (click)="exportExcel();">Export</button>
+        </div>
+        <div class="col-5" *ngIf="userData.role==userRole.User">
+            <div class="alert alert-primary text-center" role="alert">
+                <h1>Welcome {{userData.firstName}}!</h1>
+              </div>
         </div>
     </div>
     <div class="row">
@@ -37,7 +42,7 @@
                     <th>Type</th>
                     <th>ClientName</th>
                     <th>Amount</th>
-                    <th>Action</th>
+                    <th *ngIf="userData.role==userRole.Admin">Action</th>
                 </tr>
                 <tr
                     *ngFor="let transaction of transactions | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
@@ -46,7 +51,7 @@
                     <td>{{transaction.type}}</td>
                     <td>{{transaction.clientName}}</td>
                     <td>{{transaction.amount}}</td>
-                    <td>
+                    <td *ngIf="userData.role==userRole.Admin">
                         <button type="button" class="btn btn-primary" title="edit"
                             (click)="openModal(transaction.id)">Edit</button>
                         <button type="button" class="btn btn-danger edit" title="delete transaction"
@@ -64,3 +69,6 @@
         </div>
     </div>
 </div>
+<div *ngIf="!userData.isLoggedIn" class="alert alert-danger text-center" role="alert">
+    <h1>Not logged in, please log in to continue</h1>
+  </div>

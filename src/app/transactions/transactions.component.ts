@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { TransactionService } from '../service/transaction.service';
-import { Transaction } from '../model/transaction';
+import { TransactionService } from '../services/transaction.service';
+import { Transaction } from '../models/transaction';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ExcelService } from '../service/excel.service'
+import { ExcelService } from '../services/excel.service'
 import { TransactionDetailComponent } from '../transaction-detail/transaction-detail.component';
+import { User } from '../models/user';
+import { UserRole } from '../models/roles';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-transactions',
@@ -20,15 +23,24 @@ export class TransactionsComponent implements OnInit {
   page = 1;
   pageSize = 10;
 
+  userData = new User();    
+  userRole = UserRole;
+
   constructor(
     private service: TransactionService, 
     private modalService: NgbModal,
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private authService: AuthService
     ) {
+      this.authService.userData.asObservable().subscribe(data => {
+        this.userData = data;
+      });
   }
 
   ngOnInit(): void {
+    if(this.userData.isLoggedIn){
     this.getTransactions();
+    }
   }
 
   getTransactions(): void {

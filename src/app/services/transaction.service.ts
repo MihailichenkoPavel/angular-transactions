@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
-import { Transaction } from '../model/transaction';
+import { Transaction } from '../models/transaction';
 
 @Injectable({ providedIn: 'root' })
 export class TransactionService {
